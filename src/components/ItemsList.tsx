@@ -33,7 +33,6 @@ const ItemsList: React.FC = () => {
     loadItemsFromStorage();
   }, []);
 
-  // Example function to add a new item
   const handleAddItem = async () => {
     const newItem: Item = {
       id: Date.now(), // Use current timestamp as a simple unique id
@@ -51,14 +50,13 @@ const ItemsList: React.FC = () => {
     }
   };
 
-  // Function to simulate fetching more items (pagination)
   const fetchMoreItems = async () => {
     if (loadingMore) return;
     setLoadingMore(true);
     // Simulate fetching more data
     setTimeout(async () => {
       const moreItems: Item[] = Array.from({length: 10}, (_, index) => ({
-        id: Date.now() + index, // Ensure unique ID
+        id: Date.now() + index,
         name: `Item ${items.length + index + 1}`,
       }));
       setItems(prevItems => [...prevItems, ...moreItems]);

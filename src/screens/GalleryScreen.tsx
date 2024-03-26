@@ -1,7 +1,5 @@
-// GalleryScreen.tsx
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, FlatList, Text} from 'react-native';
-// import CameraRoll from '@react-native-community/cameraroll';
 import PhotoItem from '../components/PhotoItem';
 
 interface Photo {
@@ -16,7 +14,7 @@ const GalleryScreen = () => {
   const [photos, setPhotos] = useState<Photo[]>([]);
 
   const fetchPhotos = async () => {
-    // Permissions and fetching logic here (unchanged)
+    
   };
 
   useEffect(() => {

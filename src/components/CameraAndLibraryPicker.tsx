@@ -15,7 +15,7 @@ import {
   useCameraDevice,
   useCameraPermission,
 } from 'react-native-vision-camera';
-import {CameraRoll} from '@react-native-camera-roll/camera-roll';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
   const {requestPermission, hasPermission} = useCameraPermission();
@@ -54,17 +54,31 @@ const Login = () => {
   };
 
   const saveImage = async () => {
-    await CameraRoll.saveAsset(capturedImage!, {type: 'photo'}).then(() => {
-      Alert.alert('Success', 'Photo saved successfully', [
-        {style: 'cancel', text: 'cancel'},
-        {
-          text: 'open photos',
-          onPress: async () => {
-            await Linking.openURL('photos-redirect://');
-          },
-        },
-      ]);
-    });
+    if (!capturedImage) {
+      Alert.alert('Error', 'No image captured');
+      return;
+    }
+
+    const newPhoto = {
+      id: new Date().toISOString(),
+      uri: capturedImage,
+      timestamp: new Date().toISOString(),
+    };
+
+    try {
+      const existingPhotosString = await AsyncStorage.getItem('photos');
+      const existingPhotos = existingPhotosString
+        ? JSON.parse(existingPhotosString)
+        : [];
+
+      const updatedPhotos = [...existingPhotos, newPhoto];
+      await AsyncStorage.setItem('photos', JSON.stringify(updatedPhotos));
+
+      Alert.alert('Success', 'Photo saved successfully', [{text: 'OK'}]);
+    } catch (error) {
+      console.error('Error saving photo:', error);
+      Alert.alert('Error', 'Failed to save photo');
+    }
   };
 
   if (device === null) {

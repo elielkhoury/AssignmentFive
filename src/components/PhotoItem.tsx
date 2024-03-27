@@ -1,3 +1,4 @@
+// PhotoItem.tsx
 import React from 'react';
 import {View, Image, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
